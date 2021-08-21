@@ -1,0 +1,105 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.psquare.setup"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField 'String', 'BASE_URL', '"https://jsonplaceholder.typicode.com"'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            versionCode 1
+            versionName "1.0.0"
+            resValue "string", "app_name", "@string/app_name_dev"
+        }
+        prod {
+            versionCode 1
+            versionName "1.0.0"
+            resValue "string", "app_name", "@string/app_name_prod"
+        }
+        applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "3DDots_${variant.getBaseName().toUpperCase()}_v${variant.versionName}.apk"
+            }
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    def ktx_version = "1.6.0"
+    implementation "androidx.core:core-ktx:$ktx_version"
+
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+
+    def crypto_version = "1.1.0-alpha03"
+    implementation "androidx.security:security-crypto:$crypto_version"
+
+    // UI
+    def compat_version = "1.3.1"
+    implementation "androidx.appcompat:appcompat:$compat_version"
+
+    def material_version = "1.4.0"
+    implementation "com.google.android.material:material:$material_version"
+
+    def constraint_version = "2.1.0"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
+
+    // Koin
+    def koin_version= "3.1.2"
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+
+    // Coroutines
+    def coroutines_version = "1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    // REST
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    def interceptor_version = "4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:$interceptor_version"
+
+    // Logger
+    def timber_version = "5.0.1"
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Testing dependencies
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

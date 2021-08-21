@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name_prod">Project setup</string>
+    <string name="app_name_dev">DEV - Project setup</string>
+</resources>
